@@ -107,3 +107,25 @@ const main = () => {
 
 main();
 
+const getLikedSongs = async (accessToken) => {
+    const url = 'https://api.spotify.com/v1/me/tracks';
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    const data = await response.json();
+    return data;
+};
+
+const parseSongs = (data) => {
+    const songs = data.items.map((item) => ({
+        title: item.track.name,
+        artist: item.track.artists[0].name,
+        cover: item.track.album.images[0].url,
+        releaseDate: item.track.album.release_date,
+        duration: item.track.duration_ms,
+    }));
+    console.log(songs);
+    return songs;
+};
