@@ -74,6 +74,7 @@ const getAccessToken = async (authCode) => {
         if (data.access_token) {
             localStorage.setItem('access_token', data.access_token);
             console.log('Access token:', data);
+            return data.access_token;
         }
     } catch (error) {
         console.error('Error getting access token:', error);
@@ -85,7 +86,7 @@ const handleRedirectCallback = async () => {
     const authCode = urlParams.get('code');
     // if the user approves the Spotify redirect, get an access token and allow the user to use the app
     if (authCode) {
-        await getAccessToken(authCode);
+        const accessToken = await getAccessToken(authCode);
         const mainContent = document.querySelector('.main-content');
         // change the url back to the home page
         window.history.replaceState({}, '', '/');
