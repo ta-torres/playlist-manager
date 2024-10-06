@@ -118,6 +118,13 @@ a {
     background: var(--c-main-dark);
 }
 
+.login {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    gap: 10px;
+}
+
 .main-content {
     width: 100%;
     display: flex;

@@ -88,6 +88,10 @@ const handleRedirectCallback = async () => {
     if (authCode) {
         const accessToken = await getAccessToken(authCode);
         const mainContent = document.querySelector('.main-content');
+        const loginMessage = document.querySelector('.login-message');
+
+        const usersProfile = await getUsersProfile(accessToken);
+        loginMessage.textContent = `Welcome ${usersProfile.display_name}!`;
         // change the url back to the home page
         window.history.replaceState({}, '', '/');
         mainContent.classList.toggle('disabled');
@@ -189,4 +193,19 @@ const createSongItem = (song) => {
     songItem.appendChild(songStats);
 
     return songItem;
+};
+
+const getUsersProfile = async (accessToken) => {
+    try {
+        const response = await fetch('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        const userData = await response.json();
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+    }
 };
