@@ -86,8 +86,10 @@ const handleRedirectCallback = async () => {
     // if the user approves the Spotify redirect, get an access token and allow the user to use the app
     if (authCode) {
         await getAccessToken(authCode);
+        const mainContent = document.querySelector('.main-content');
         // change the url back to the home page
         window.history.replaceState({}, '', '/');
+        mainContent.classList.toggle('disabled');
     }
 };
 
@@ -98,6 +100,16 @@ const main = () => {
         redirectToSpotify();
     });
 
+    const likedSongsBtn = document.querySelector('.liked-songs-btn');
+    likedSongsBtn.addEventListener('click', async () => {
+        songsContainer.textContent = '';
+        const songs = await getLikedSongs(localStorage.getItem('access_token'));
+        const parsedSongs = await parseSongs(songs);
+        for (let song of parsedSongs) {
+            const songItem = createSongItem(song);
+            songsContainer.appendChild(songItem);
+        }
+    });
 
     // Handle redirect from Spotify
     if (window.location.search.includes('code=')) {
@@ -128,4 +140,52 @@ const parseSongs = (data) => {
     }));
     console.log(songs);
     return songs;
+};
+
+const createSongItem = (song) => {
+    const songItem = document.createElement('li');
+
+    const songDetails = document.createElement('div');
+    songDetails.className = 'song-details';
+
+    const cover = document.createElement('div');
+    cover.className = 'cover';
+    const img = document.createElement('img');
+    img.src = song.cover;
+    img.width = 64;
+    img.height = 64;
+    img.alt = `${song.title} cover`;
+    cover.appendChild(img);
+
+    const info = document.createElement('div');
+    info.className = 'info';
+    const title = document.createElement('p');
+    title.className = 'title';
+    title.textContent = song.title;
+    const artist = document.createElement('p');
+    artist.className = 'artist';
+    artist.textContent = song.artist;
+
+    info.appendChild(title);
+    info.appendChild(artist);
+
+    songDetails.appendChild(cover);
+    songDetails.appendChild(info);
+
+    const songStats = document.createElement('div');
+    songStats.className = 'song-stats';
+    const releaseDate = document.createElement('p');
+    releaseDate.className = 'release-date';
+    releaseDate.textContent = song.releaseDate;
+    const duration = document.createElement('p');
+    duration.className = 'duration';
+    duration.textContent = song.duration;
+
+    songStats.appendChild(releaseDate);
+    songStats.appendChild(duration);
+
+    songItem.appendChild(songDetails);
+    songItem.appendChild(songStats);
+
+    return songItem;
 };
