@@ -158,6 +158,10 @@ a {
     display: flex;
     align-items: center;
     gap: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40ch;
 }
 
 .details .title {
@@ -188,3 +192,8 @@ a {
     font-size: 1.4rem;
     font-weight: 300;
 }
+
+.playlists .details {
+    padding: 10px 20px;
+}
+

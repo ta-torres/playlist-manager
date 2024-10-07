@@ -107,12 +107,27 @@ const main = () => {
 
     const likedSongsBtn = document.querySelector('.liked-songs-btn');
     likedSongsBtn.addEventListener('click', async () => {
+        listContainer.classList.remove('playlists');
         listContainer.textContent = '';
         const songs = await getLikedSongs(localStorage.getItem('access_token'));
         const parsedSongs = await parseSongs(songs);
         for (let song of parsedSongs) {
             const songItem = createSongItem(song);
             listContainer.appendChild(songItem);
+        }
+    });
+
+    const showPlaylistsBtn = document.querySelector('.show-playlists-btn');
+    showPlaylistsBtn.addEventListener('click', async () => {
+        listContainer.classList.add('playlists');
+        listContainer.textContent = '';
+        const playlists = await getPlaylists(
+            localStorage.getItem('access_token'),
+        );
+        const parsedPlaylists = await parsePlaylists(playlists);
+        for (let playlist of parsedPlaylists) {
+            const playlistItem = createPlaylistItem(playlist);
+            listContainer.appendChild(playlistItem);
         }
     });
 
@@ -188,6 +203,44 @@ const createSongItem = (song) => {
     const stat2 = document.createElement('p');
     stat2.className = 'stat-2';
     stat2.textContent = song.releaseDate;
+
+    stats.appendChild(stat1);
+    stats.appendChild(stat2);
+
+    item.appendChild(details);
+    item.appendChild(stats);
+
+    return item;
+};
+
+const createPlaylistItem = (playlist) => {
+    const item = document.createElement('li');
+
+    const details = document.createElement('div');
+    details.className = 'details';
+
+    const info = document.createElement('div');
+    info.className = 'info';
+    const title = document.createElement('p');
+    title.className = 'title';
+    title.textContent = playlist.title;
+    const description = document.createElement('p');
+    description.className = 'description';
+    description.textContent = playlist.description;
+
+    info.appendChild(title);
+    info.appendChild(description);
+
+    details.appendChild(info);
+
+    const stats = document.createElement('div');
+    stats.className = 'stats';
+    const stat1 = document.createElement('p');
+    stat1.className = 'stat-1';
+    stat1.textContent = playlist.tracks;
+    const stat2 = document.createElement('p');
+    stat2.className = 'stat-2';
+    stat2.textContent = playlist.owner;
 
     stats.appendChild(stat1);
     stats.appendChild(stat2);
