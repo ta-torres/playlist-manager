@@ -99,7 +99,7 @@ const handleRedirectCallback = async () => {
 };
 
 const main = () => {
-    const songsContainer = document.querySelector('.songs-container ul');
+    const listContainer = document.querySelector('.list-container ul');
     const loginBtn = document.querySelector('.login-btn');
     loginBtn.addEventListener('click', () => {
         redirectToSpotify();
@@ -107,12 +107,12 @@ const main = () => {
 
     const likedSongsBtn = document.querySelector('.liked-songs-btn');
     likedSongsBtn.addEventListener('click', async () => {
-        songsContainer.textContent = '';
+        listContainer.textContent = '';
         const songs = await getLikedSongs(localStorage.getItem('access_token'));
         const parsedSongs = await parseSongs(songs);
         for (let song of parsedSongs) {
             const songItem = createSongItem(song);
-            songsContainer.appendChild(songItem);
+            listContainer.appendChild(songItem);
         }
     });
 
@@ -151,10 +151,10 @@ const parseSongs = (data) => {
 };
 
 const createSongItem = (song) => {
-    const songItem = document.createElement('li');
+    const item = document.createElement('li');
 
-    const songDetails = document.createElement('div');
-    songDetails.className = 'song-details';
+    const details = document.createElement('div');
+    details.className = 'details';
 
     const cover = document.createElement('div');
     cover.className = 'cover';
@@ -170,32 +170,32 @@ const createSongItem = (song) => {
     const title = document.createElement('p');
     title.className = 'title';
     title.textContent = song.title;
-    const artist = document.createElement('p');
-    artist.className = 'artist';
-    artist.textContent = song.artist;
+    const description = document.createElement('p');
+    description.className = 'description';
+    description.textContent = song.artist;
 
     info.appendChild(title);
-    info.appendChild(artist);
+    info.appendChild(description);
 
-    songDetails.appendChild(cover);
-    songDetails.appendChild(info);
+    details.appendChild(cover);
+    details.appendChild(info);
 
-    const songStats = document.createElement('div');
-    songStats.className = 'song-stats';
-    const releaseDate = document.createElement('p');
-    releaseDate.className = 'release-date';
-    releaseDate.textContent = song.releaseDate;
-    const duration = document.createElement('p');
-    duration.className = 'duration';
-    duration.textContent = song.duration;
+    const stats = document.createElement('div');
+    stats.className = 'stats';
+    const stat1 = document.createElement('p');
+    stat1.className = 'stat-1';
+    stat1.textContent = song.duration.minutes + ':' + song.duration.seconds;
+    const stat2 = document.createElement('p');
+    stat2.className = 'stat-2';
+    stat2.textContent = song.releaseDate;
 
-    songStats.appendChild(releaseDate);
-    songStats.appendChild(duration);
+    stats.appendChild(stat1);
+    stats.appendChild(stat2);
 
-    songItem.appendChild(songDetails);
-    songItem.appendChild(songStats);
+    item.appendChild(details);
+    item.appendChild(stats);
 
-    return songItem;
+    return item;
 };
 
 const getUsersProfile = async (accessToken) => {

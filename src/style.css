@@ -133,18 +133,18 @@ a {
     gap: 20px;
 }
 
-.songs-container {
+.list-container {
     max-width: 500px;
     width: 100%;
     padding: 10px;
 }
 
-.songs-container ul {
+.list-container ul {
     max-height: 500px;
     overflow: auto;
 }
 
-.songs-container ul li {
+.list-container ul li {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-template-areas: 'song-details song-stats';
@@ -153,20 +153,38 @@ a {
     gap: 10px;
 }
 
-.song-details {
+.details {
     grid-area: song-details;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.song-details .cover {
+.details .title {
+    font-weight: 500;
+}
+
+.details .description {
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+
+.details .cover {
     flex-shrink: 0;
 }
 
-.song-stats {
+.stats {
     grid-area: song-stats;
     display: grid;
     padding-right: 10px;
     justify-items: end;
+}
+
+.stats .stat-1 {
+    font-weight: 500;
+}
+
+.stats .stat-2 {
+    font-size: 1.4rem;
+    font-weight: 300;
 }
