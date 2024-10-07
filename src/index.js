@@ -140,8 +140,11 @@ const parseSongs = (data) => {
         title: item.track.name,
         artist: item.track.artists[0].name,
         cover: item.track.album.images[0].url,
-        releaseDate: item.track.album.release_date,
-        duration: item.track.duration_ms,
+        releaseDate: new Date(item.track.album.release_date).getFullYear(),
+        duration: {
+            minutes: Math.floor(item.track.duration_ms / 60000),
+            seconds: Math.floor((item.track.duration_ms % 60000) / 1000),
+        },
     }));
     console.log(songs);
     return songs;
