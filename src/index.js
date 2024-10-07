@@ -2,7 +2,7 @@ import './style.css';
 
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
 const SPOTIFY_REDIRECT_URI = 'http://localhost:8080';
-const SCOPES = 'user-library-read';
+const SCOPES = 'user-library-read playlist-read-private';
 
 const generateAuthCode = async () => {
     const generateRandomString = (length) => {
@@ -211,4 +211,33 @@ const getUsersProfile = async (accessToken) => {
     } catch (error) {
         console.error('Error fetching user profile:', error);
     }
+};
+
+const getPlaylists = async (accessToken) => {
+    try {
+        const response = await fetch(
+            'https://api.spotify.com/v1/me/playlists',
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            },
+        );
+        const playlistData = await response.json();
+        return playlistData.items;
+    } catch (error) {
+        console.error('Error fetching playlists:', error);
+    }
+};
+
+const parsePlaylists = (data) => {
+    const playlists = data.map((item) => ({
+        title: item.name,
+        description: item.description,
+        cover: item.cover,
+        tracks: item.tracks.total,
+        owner: item.owner.display_name,
+    }));
+    console.log(playlists);
+    return playlists;
 };
