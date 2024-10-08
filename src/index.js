@@ -134,10 +134,12 @@ const main = () => {
 
     const createPlaylistBtn = document.querySelector('.create-playlist-btn');
     createPlaylistBtn.addEventListener('click', async () => {
-        await createPlaylist(
-            localStorage.getItem('access_token'),
-            'Test Playlist',
-        );
+        const accessToken = localStorage.getItem('access_token');
+        const playlistId = await createPlaylist(accessToken, 'Test Playlist');
+        const songs = await getLikedSongs(accessToken);
+        const parsedSongs = await parseSongs(songs);
+        const songIds = parsedSongs.map((song) => song.id);
+        await addSongsToPlaylist(accessToken, playlistId, songIds);
     });
 
     // Handle redirect from Spotify
@@ -169,6 +171,7 @@ const parseSongs = (data) => {
             minutes: Math.floor(item.track.duration_ms / 60000),
             seconds: Math.floor((item.track.duration_ms % 60000) / 1000),
         },
+        id: item.track.id,
     }));
     console.log(songs);
     return songs;
@@ -326,3 +329,20 @@ const createPlaylist = async (accessToken, playlistName) => {
     console.log('createPlaylist', playlist);
     return playlist.id;
 };
+
+const addSongsToPlaylist = async (accessToken, playlistId, songIds) => {
+    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // parse every song id into a Spotify uri identifier
+            uris: songIds.map((id) => `spotify:track:${id}`),
+        }),
+    });
+    console.log('addSongsToPlaylist', playlistId, songIds);
+};
+
