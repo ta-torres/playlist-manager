@@ -2,7 +2,8 @@ import './style.css';
 
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
 const SPOTIFY_REDIRECT_URI = 'http://localhost:8080';
-const SCOPES = 'user-library-read playlist-read-private';
+const SCOPES =
+    'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
 const generateAuthCode = async () => {
     const generateRandomString = (length) => {
@@ -129,6 +130,14 @@ const main = () => {
             const playlistItem = createPlaylistItem(playlist);
             listContainer.appendChild(playlistItem);
         }
+    });
+
+    const createPlaylistBtn = document.querySelector('.create-playlist-btn');
+    createPlaylistBtn.addEventListener('click', async () => {
+        await createPlaylist(
+            localStorage.getItem('access_token'),
+            'Test Playlist',
+        );
     });
 
     // Handle redirect from Spotify
@@ -293,4 +302,27 @@ const parsePlaylists = (data) => {
     }));
     console.log(playlists);
     return playlists;
+};
+
+const createPlaylist = async (accessToken, playlistName) => {
+    // need to grab the user id to create a playlist
+    // return the playlist id to add songs later
+    const userId = await getUsersProfile(accessToken).then((data) => data.id);
+    const url = 'https://api.spotify.com/v1/users/' + userId + '/playlists';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: playlistName,
+            description: `${playlistName} songs`,
+            // Setting public to false in the API hides the playlist from the user's profile, but it's still listed as "public playlist" in the app
+            public: false,
+        }),
+    });
+    const playlist = await response.json();
+    console.log('createPlaylist', playlist);
+    return playlist.id;
 };
