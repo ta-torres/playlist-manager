@@ -134,12 +134,7 @@ const main = () => {
 
     const createPlaylistBtn = document.querySelector('.create-playlist-btn');
     createPlaylistBtn.addEventListener('click', async () => {
-        const accessToken = localStorage.getItem('access_token');
-        const playlistId = await createPlaylist(accessToken, 'Test Playlist');
-        const songs = await getLikedSongs(accessToken);
-        const parsedSongs = await parseSongs(songs);
-        const songIds = parsedSongs.map((song) => song.id);
-        await addSongsToPlaylist(accessToken, playlistId, songIds);
+        await createPlaylistByDecade();
     });
 
     // Handle redirect from Spotify
@@ -346,3 +341,45 @@ const addSongsToPlaylist = async (accessToken, playlistId, songIds) => {
     console.log('addSongsToPlaylist', playlistId, songIds);
 };
 
+const parseSongsByDecade = (data) => {
+    const songs = data.items.map((item) => ({
+        id: item.track.id,
+        releaseDate: new Date(item.track.album.release_date).getFullYear(),
+    }));
+    /* 
+    get all the songs id and release date
+    create an object of songs by decade
+    go through every song
+        get the release date in 10 year increments
+        if the decade key is not in the object, add it
+        push the song id into the decade array
+    */
+    const songsByDecade = {};
+    songs.forEach((song) => {
+        const decade = Math.floor(song.releaseDate / 10) * 10;
+        if (!songsByDecade[decade]) {
+            songsByDecade[decade] = [];
+        }
+        songsByDecade[decade].push(song.id);
+    });
+
+    return songsByDecade;
+};
+
+const createPlaylistByDecade = async () => {
+    const accessToken = localStorage.getItem('access_token');
+    const songs = await getLikedSongs(accessToken);
+    const songsByDecade = parseSongsByDecade(songs);
+
+    for (let decade in songsByDecade) {
+        const playlistId = await createPlaylist(accessToken, `${decade}s`);
+        await addSongsToPlaylist(
+            accessToken,
+            playlistId,
+            songsByDecade[decade],
+        );
+        console.log(
+            `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
+        );
+    }
+};
