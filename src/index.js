@@ -110,7 +110,10 @@ const main = () => {
     likedSongsBtn.addEventListener('click', async () => {
         listContainer.classList.remove('playlists');
         listContainer.textContent = '';
-        const songs = await getLikedSongs(localStorage.getItem('access_token'));
+        const songs = await getLikedSongs(
+            localStorage.getItem('access_token'),
+            20,
+        );
         const parsedSongs = await parseSongs(songs);
         for (let song of parsedSongs) {
             const songItem = createSongItem(song);
@@ -145,8 +148,10 @@ const main = () => {
 
 main();
 
-const getLikedSongs = async (accessToken) => {
-    let url = 'https://api.spotify.com/v1/me/tracks';
+const getLikedSongs = async (accessToken, limit) => {
+    let url =
+        'https://api.spotify.com/v1/me/tracks' +
+        (limit ? '?limit=' + limit : '?limit=50');
     let songs = [];
     let songsLeft = true;
 
@@ -160,6 +165,9 @@ const getLikedSongs = async (accessToken) => {
 
         songs = songs.concat(data.items);
 
+        if (limit && songs.length >= limit) {
+            songsLeft = false;
+        }
         if (data.next) {
             url = data.next;
         } else {
