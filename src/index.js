@@ -74,7 +74,6 @@ const getAccessToken = async (authCode) => {
         const data = await response.json();
         if (data.access_token) {
             localStorage.setItem('access_token', data.access_token);
-            console.log('Access token:', data);
             return data.access_token;
         }
     } catch (error) {
@@ -140,7 +139,6 @@ const main = () => {
         await createPlaylistByDecade();
     });
 
-    // Handle redirect from Spotify
     if (window.location.search.includes('code=')) {
         handleRedirectCallback();
     }
@@ -189,7 +187,6 @@ const parseSongs = (data) => {
         },
         id: item.track.id,
     }));
-    console.log(songs);
     return songs;
 };
 
@@ -319,13 +316,10 @@ const parsePlaylists = (data) => {
         tracks: item.tracks.total,
         owner: item.owner.display_name,
     }));
-    console.log(playlists);
     return playlists;
 };
 
 const createPlaylist = async (accessToken, playlistName) => {
-    // need to grab the user id to create a playlist
-    // return the playlist id to add songs later
     const userId = await getUsersProfile(accessToken).then((data) => data.id);
     const url = 'https://api.spotify.com/v1/users/' + userId + '/playlists';
     const response = await fetch(url, {
@@ -342,7 +336,6 @@ const createPlaylist = async (accessToken, playlistName) => {
         }),
     });
     const playlist = await response.json();
-    console.log('createPlaylist', playlist);
     return playlist.id;
 };
 
@@ -366,7 +359,6 @@ const addSongsToPlaylist = async (accessToken, playlistId, songIds) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                // parse every song id into a Spotify uri identifier
                 uris: segment.map((id) => `spotify:track:${id}`),
             }),
         });
