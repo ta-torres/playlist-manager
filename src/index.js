@@ -146,14 +146,27 @@ const main = () => {
 main();
 
 const getLikedSongs = async (accessToken) => {
-    const url = 'https://api.spotify.com/v1/me/tracks';
-    const response = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-    });
-    const data = await response.json();
-    return data;
+    let url = 'https://api.spotify.com/v1/me/tracks';
+    let songs = [];
+    let songsLeft = true;
+
+    while (songsLeft) {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        const data = await response.json();
+
+        songs = songs.concat(data.items);
+
+        if (data.next) {
+            url = data.next;
+        } else {
+            songsLeft = false;
+        }
+    }
+    return { items: songs };
 };
 
 const parseSongs = (data) => {
@@ -325,20 +338,31 @@ const createPlaylist = async (accessToken, playlistName) => {
     return playlist.id;
 };
 
+const splitArray = (array, size) => {
+    const segments = [];
+    for (let i = 0; i < array.length; i += size) {
+        segments.push(array.slice(i, i + size));
+    }
+    return segments;
+};
+
 const addSongsToPlaylist = async (accessToken, playlistId, songIds) => {
-    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
-    await fetch(url, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            // parse every song id into a Spotify uri identifier
-            uris: songIds.map((id) => `spotify:track:${id}`),
-        }),
-    });
-    console.log('addSongsToPlaylist', playlistId, songIds);
+    // 100 songs limit per request
+    const segmentedSongIds = splitArray(songIds, 100);
+    for (const segment of segmentedSongIds) {
+        const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                // parse every song id into a Spotify uri identifier
+                uris: segment.map((id) => `spotify:track:${id}`),
+            }),
+        });
+    }
 };
 
 const parseSongsByDecade = (data) => {
