@@ -73,11 +73,53 @@ const getAccessToken = async (authCode) => {
 
         const data = await response.json();
         if (data.access_token) {
+            const expirationTime =
+                new Date().getTime() + data.expires_in * 1000;
             localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('token_expiry', expirationTime);
+            localStorage.setItem('refresh_token', data.refresh_token);
             return data.access_token;
         }
     } catch (error) {
         console.error('Error getting access token:', error);
+    }
+};
+
+const isTokenValid = () => {
+    const token = localStorage.getItem('access_token');
+    const tokenExpiry = localStorage.getItem('token_expiry');
+
+    if (token && tokenExpiry && new Date().getTime() < tokenExpiry) {
+        return true;
+    } else {
+        if (localStorage.getItem('refresh_token')) getRefreshToken();
+    }
+};
+
+const getRefreshToken = async () => {
+    const refreshToken = localStorage.getItem('refresh_token');
+    const url = 'https://accounts.spotify.com/api/token';
+
+    const payload = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: SPOTIFY_CLIENT_ID,
+        }),
+    };
+    const body = await fetch(url, payload);
+    const response = await body.json();
+    console.log(response);
+
+    const expirationTime = new Date().getTime() + response.expires_in * 1000;
+    localStorage.setItem('access_token', response.access_token);
+    localStorage.setItem('token_expiry', expirationTime);
+    if (response.refreshToken) {
+        localStorage.setItem('refresh_token', response.refresh_token);
     }
 };
 
