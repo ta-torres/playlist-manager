@@ -131,6 +131,8 @@ const handleRedirectCallback = async () => {
         const accessToken = await getAccessToken(authCode);
         const mainContent = document.querySelector('.main-content');
         const loginMessage = document.querySelector('.login-message');
+        const loginSection = document.querySelector('.login');
+        loginSection.classList.add('disabled');
 
         const usersProfile = await getUsersProfile(accessToken);
         loginMessage.textContent = `Welcome ${usersProfile.display_name}!`;
@@ -140,9 +142,38 @@ const handleRedirectCallback = async () => {
     }
 };
 
+const getUsersProfile = async (accessToken) => {
+    try {
+        const response = await fetch('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        const userData = await response.json();
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+    }
+};
+
 const main = () => {
     const listContainer = document.querySelector('.list-container ul');
     const loginBtn = document.querySelector('.login-btn');
+    const mainContent = document.querySelector('.main-content');
+    const loginSection = document.querySelector('.login');
+
+    if (isTokenValid()) {
+        mainContent.classList.remove('disabled');
+        loginSection.classList.add('disabled');
+
+        const accessToken = localStorage.getItem('access_token');
+        getUsersProfile(accessToken).then((profile) => {
+            const loginMessage = document.querySelector('.login-message');
+            loginMessage.textContent = `Welcome ${profile.display_name}!`;
+        });
+    }
+
     loginBtn.addEventListener('click', () => {
         redirectToSpotify();
     });
@@ -316,21 +347,6 @@ const createPlaylistItem = (playlist) => {
     item.appendChild(stats);
 
     return item;
-};
-
-const getUsersProfile = async (accessToken) => {
-    try {
-        const response = await fetch('https://api.spotify.com/v1/me', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-
-        const userData = await response.json();
-        return userData;
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-    }
 };
 
 const getPlaylists = async (accessToken) => {
