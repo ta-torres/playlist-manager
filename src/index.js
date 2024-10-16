@@ -118,7 +118,7 @@ const getRefreshToken = async () => {
     const expirationTime = new Date().getTime() + response.expires_in * 1000;
     localStorage.setItem('access_token', response.access_token);
     localStorage.setItem('token_expiry', expirationTime);
-    if (response.refreshToken) {
+    if (response.refresh_token) {
         localStorage.setItem('refresh_token', response.refresh_token);
     }
 };
