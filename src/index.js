@@ -92,7 +92,11 @@ const isTokenValid = () => {
     if (token && tokenExpiry && new Date().getTime() < tokenExpiry) {
         return true;
     } else {
-        if (localStorage.getItem('refresh_token')) getRefreshToken();
+        if (localStorage.getItem('refresh_token')) {
+            getRefreshToken().then(() => {
+                window.location.reload();
+            });
+        }
     }
 };
 
