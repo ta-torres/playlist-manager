@@ -184,6 +184,7 @@ const main = () => {
 
     const likedSongsBtn = document.querySelector('.liked-songs-btn');
     likedSongsBtn.addEventListener('click', async () => {
+        disableButtons(true);
         listContainer.classList.remove('playlists');
         listContainer.textContent = '';
         const songs = await getLikedSongs(
@@ -195,10 +196,12 @@ const main = () => {
             const songItem = createSongItem(song);
             listContainer.appendChild(songItem);
         }
+        disableButtons(false);
     });
 
     const showPlaylistsBtn = document.querySelector('.show-playlists-btn');
     showPlaylistsBtn.addEventListener('click', async () => {
+        disableButtons(true);
         listContainer.classList.add('playlists');
         listContainer.textContent = '';
         const playlists = await getPlaylists(
@@ -209,11 +212,14 @@ const main = () => {
             const playlistItem = createPlaylistItem(playlist);
             listContainer.appendChild(playlistItem);
         }
+        disableButtons(false);
     });
 
     const createPlaylistBtn = document.querySelector('.create-playlist-btn');
     createPlaylistBtn.addEventListener('click', async () => {
+        enableLoadingBtn(true, createPlaylistBtn);
         await createPlaylistByDecade();
+        enableLoadingBtn(false, createPlaylistBtn);
     });
 
     if (window.location.search.includes('code=')) {
@@ -468,4 +474,16 @@ const createPlaylistByDecade = async () => {
             `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
         );
     }
+};
+const enableLoadingBtn = (isLoading, currentBtn) => {
+    currentBtn.disabled = isLoading;
+    currentBtn.querySelector('.btn-text').classList.toggle('disabled');
+    currentBtn.querySelector('.spinner').classList.toggle('disabled');
+};
+
+const disableButtons = (isDisabled) => {
+    const buttons = document.querySelectorAll('.main-content .buttons button');
+    buttons.forEach((button) => {
+        button.disabled = isDisabled;
+    });
 };
