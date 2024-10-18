@@ -463,18 +463,46 @@ const createPlaylistByDecade = async () => {
     const songs = await getLikedSongs(accessToken);
     const songsByDecade = parseSongsByDecade(songs);
 
+    toggleSection('confirmation', true);
+
+    const confirmationMessage = document.querySelector('.confirmation-message');
+    let confirmationText = '';
+
     for (let decade in songsByDecade) {
-        const playlistId = await createPlaylist(accessToken, `${decade}s`);
-        await addSongsToPlaylist(
-            accessToken,
-            playlistId,
-            songsByDecade[decade],
-        );
-        console.log(
-            `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
-        );
+        confirmationText += `<p>"${decade}s" with ${songsByDecade[decade].length} songs</p>`;
     }
+    confirmationMessage.innerHTML = confirmationText;
+
+    const confirmBtn = document.querySelector('.confirm-btn');
+    const cancelBtn = document.querySelector('.cancel-btn');
+
+    confirmBtn.addEventListener('click', async () => {
+        toggleSection('confirmation', false);
+
+        for (let decade in songsByDecade) {
+            const playlistId = await createPlaylist(accessToken, `${decade}s`);
+            await addSongsToPlaylist(
+                accessToken,
+                playlistId,
+                songsByDecade[decade],
+            );
+            console.log(
+                `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
+            );
+        }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        toggleSection('confirmation', false);
+    });
 };
+
+const toggleSection = (section, isVisible) => {
+    const sectionElement = document.querySelector(`.${section}-section`);
+    if (isVisible) sectionElement.classList.remove('disabled');
+    else sectionElement.classList.add('disabled');
+};
+
 const enableLoadingBtn = (isLoading, currentBtn) => {
     currentBtn.disabled = isLoading;
     currentBtn.querySelector('.btn-text').classList.toggle('disabled');

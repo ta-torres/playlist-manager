@@ -216,3 +216,15 @@ a {
     }
 }
 
+.confirmation-section {
+    width: 100%;
+    padding: 20px;
+    background: var(--c-main-light);
+    border: 1px solid var(--c-accent);
+    border-radius: 5px;
+    max-width: 40ch;
+}
+
+.confirmation-section .btn {
+    margin-top: 10px;
+}
