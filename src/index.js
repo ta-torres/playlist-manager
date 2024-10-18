@@ -476,25 +476,36 @@ const createPlaylistByDecade = async () => {
     const confirmBtn = document.querySelector('.confirm-btn');
     const cancelBtn = document.querySelector('.cancel-btn');
 
-    confirmBtn.addEventListener('click', async () => {
-        toggleSection('confirmation', false);
+    confirmBtn.addEventListener(
+        'click',
+        async () => {
+            toggleSection('confirmation', false);
 
-        for (let decade in songsByDecade) {
-            const playlistId = await createPlaylist(accessToken, `${decade}s`);
-            await addSongsToPlaylist(
-                accessToken,
-                playlistId,
-                songsByDecade[decade],
-            );
-            console.log(
-                `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
-            );
-        }
-    });
+            for (let decade in songsByDecade) {
+                const playlistId = await createPlaylist(
+                    accessToken,
+                    `${decade}s`,
+                );
+                await addSongsToPlaylist(
+                    accessToken,
+                    playlistId,
+                    songsByDecade[decade],
+                );
+                console.log(
+                    `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
+                );
+            }
+        },
+        { once: true },
+    );
 
-    cancelBtn.addEventListener('click', () => {
-        toggleSection('confirmation', false);
-    });
+    cancelBtn.addEventListener(
+        'click',
+        () => {
+            toggleSection('confirmation', false);
+        },
+        { once: true },
+    );
 };
 
 const toggleSection = (section, isVisible) => {
