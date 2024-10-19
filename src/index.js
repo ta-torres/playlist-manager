@@ -142,7 +142,8 @@ const handleRedirectCallback = async () => {
         const usersProfile = await getUsersProfile(accessToken);
         loginMessage.textContent = `Welcome ${usersProfile.display_name}!`;
         // change the url back to the home page
-        window.history.replaceState({}, '', '/');
+        // window.history.replaceState({}, '', '/');
+        window.location.href = '/';
         mainContent.classList.toggle('disabled');
     }
 };
@@ -271,6 +272,7 @@ const parseSongs = (data) => {
         },
         id: item.track.id,
     }));
+    // console.log(songs);
     return songs;
 };
 
@@ -385,6 +387,7 @@ const parsePlaylists = (data) => {
         tracks: item.tracks.total,
         owner: item.owner.display_name,
     }));
+    // console.log(playlists);
     return playlists;
 };
 
@@ -405,6 +408,7 @@ const createPlaylist = async (accessToken, playlistName) => {
         }),
     });
     const playlist = await response.json();
+    // console.log('createPlaylist', playlist);
     return playlist.id;
 };
 
@@ -498,6 +502,9 @@ const createPlaylistByDecade = async () => {
                     accessToken,
                     playlistId,
                     songsByDecade[decade],
+                );
+                console.log(
+                    `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
                 );
                 resultsText += `<p>Added ${songsByDecade[decade].length} songs to "${decade}" playlist.</p>`;
                 resultsMessage.innerHTML = resultsText;
