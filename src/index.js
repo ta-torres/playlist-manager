@@ -143,7 +143,7 @@ const handleRedirectCallback = async () => {
         loginMessage.textContent = `Welcome ${usersProfile.display_name}!`;
         // change the url back to the home page
         // window.history.replaceState({}, '', '/');
-        window.location.href = '/';
+        window.location.href = SPOTIFY_REDIRECT_URI;
         mainContent.classList.toggle('disabled');
     }
 };
