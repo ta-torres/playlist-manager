@@ -463,6 +463,7 @@ const createPlaylistByDecade = async () => {
     const songs = await getLikedSongs(accessToken);
     const songsByDecade = parseSongsByDecade(songs);
 
+    toggleSection('results', false);
     toggleSection('confirmation', true);
 
     const confirmationMessage = document.querySelector('.confirmation-message');
@@ -480,6 +481,12 @@ const createPlaylistByDecade = async () => {
         'click',
         async () => {
             toggleSection('confirmation', false);
+            toggleSection('results', true);
+            const spinner = document.querySelector('.spinner');
+            spinner.classList.remove('disabled');
+
+            const resultsMessage = document.querySelector('.results-message');
+            let resultsText = '';
 
             for (let decade in songsByDecade) {
                 const playlistId = await createPlaylist(
@@ -491,10 +498,10 @@ const createPlaylistByDecade = async () => {
                     playlistId,
                     songsByDecade[decade],
                 );
-                console.log(
-                    `Added ${songsByDecade[decade].length} songs to "${decade}" playlist`,
-                );
+                resultsText += `<p>Added ${songsByDecade[decade].length} songs to "${decade}" playlist.</p>`;
+                resultsMessage.innerHTML = resultsText;
             }
+            spinner.classList.add('disabled');
         },
         { once: true },
     );

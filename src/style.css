@@ -216,7 +216,8 @@ a {
     }
 }
 
-.confirmation-section {
+.confirmation-section,
+.results-section {
     width: 100%;
     padding: 20px;
     background: var(--c-main-light);
@@ -225,6 +226,7 @@ a {
     max-width: 40ch;
 }
 
-.confirmation-section .btn {
+.confirmation-section .btn,
+.results-section .btn {
     margin-top: 10px;
 }
