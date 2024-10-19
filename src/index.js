@@ -143,7 +143,7 @@ const handleRedirectCallback = async () => {
         loginMessage.textContent = `Welcome ${usersProfile.display_name}!`;
         // change the url back to the home page
         // window.history.replaceState({}, '', '/');
-        window.location.href = SPOTIFY_REDIRECT_URI;
+        window.location.href = 'https://ta-torres.github.io/playlist-manager/';
         mainContent.classList.toggle('disabled');
     }
 };
