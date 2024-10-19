@@ -2,7 +2,7 @@ import './style.css';
 import iconify from 'iconify-icon';
 
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
-const SPOTIFY_REDIRECT_URI = 'http://localhost:8080';
+const SPOTIFY_REDIRECT_URI = 'https://ta-torres.github.io/playlist-manager/';
 const SCOPES =
     'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
