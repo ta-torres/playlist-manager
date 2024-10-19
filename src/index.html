@@ -8,11 +8,18 @@
     <body>
         <div class="page">
             <header class="header">
+                <iconify-icon
+                    icon="mdi:playlist-music"
+                    class="logo"
+                ></iconify-icon>
                 <h1>Playlist Manager</h1>
             </header>
 
             <section class="login">
-                <button class="login-btn btn">Login with Spotify</button>
+                <button class="login-btn btn">
+                    <iconify-icon icon="mdi:spotify" class="icon"></iconify-icon
+                    >Sign in with Spotify
+                </button>
             </section>
 
             <main class="main-content disabled">
@@ -31,19 +38,44 @@
                     <div class="results-message"></div>
                 </section>
 
-                <section class="buttons">
-                    <button class="liked-songs-btn btn">
-                        <span class="btn-text">Liked Songs</span>
-                        <span class="spinner disabled"></span>
-                    </button>
-                    <button class="show-playlists-btn btn">
-                        <span class="btn-text">Show Playlists</span>
-                        <span class="spinner disabled"></span>
-                    </button>
-                    <button class="create-playlist-btn btn">
-                        <span class="btn-text">Create playlists by decade</span>
-                        <span class="spinner disabled"></span>
-                    </button>
+                <section class="my-library-section">
+                    <section class="my-library">
+                        <h2>Your Library</h2>
+                        <div class="buttons">
+                            <button class="liked-songs-btn btn">
+                                <span class="btn-text"
+                                    ><iconify-icon
+                                        icon="mdi:heart"
+                                        class="icon"
+                                    ></iconify-icon>
+                                    Liked Songs
+                                </span>
+                                <span class="spinner disabled"></span>
+                            </button>
+                            <button class="show-playlists-btn btn">
+                                <span class="btn-text">
+                                    <iconify-icon
+                                        icon="mdi:playlist-music"
+                                        class="icon"
+                                    ></iconify-icon>
+                                    Playlists
+                                </span>
+                                <span class="spinner disabled"></span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="create-playlists">
+                        <h2>Playlists</h2>
+                        <div class="buttons">
+                            <button class="create-playlist-btn btn">
+                                <span class="btn-text"
+                                    >Create playlists by decade</span
+                                >
+                                <span class="spinner disabled"></span>
+                            </button>
+                        </div>
+                    </section>
                 </section>
 
                 <section class="list-container">

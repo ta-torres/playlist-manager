@@ -1,4 +1,5 @@
 import './style.css';
+import iconify from 'iconify-icon';
 
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
 const SPOTIFY_REDIRECT_URI = 'http://localhost:8080';
@@ -523,7 +524,6 @@ const toggleSection = (section, isVisible) => {
 
 const enableLoadingBtn = (isLoading, currentBtn) => {
     currentBtn.disabled = isLoading;
-    currentBtn.querySelector('.btn-text').classList.toggle('disabled');
     currentBtn.querySelector('.spinner').classList.toggle('disabled');
 };
 

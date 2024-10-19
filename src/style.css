@@ -33,7 +33,7 @@ html {
 
 html {
     font-size: 62.5%;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
 }
 
 body {
@@ -113,9 +113,19 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     gap: 10px;
     background: var(--c-main-dark);
+}
+
+.header .logo {
+    font-size: 3rem;
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: 400;
 }
 
 .login {
@@ -125,12 +135,102 @@ a {
     gap: 10px;
 }
 
+.login-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 30px 10px 15px;
+    background: #1db954;
+    gap: 20px;
+    font-weight: 500;
+}
+
+.login-btn .icon {
+    font-size: 24px;
+}
+
+.login-btn:hover {
+    background: white;
+    color: #1db954;
+    border: 1px solid lightgray;
+}
+
+iconify-icon {
+    font-size: 24px;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+}
+
 .main-content {
+    max-width: max-content;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+
+.login-message {
+    display: grid;
+    place-items: center;
+    min-height: 50px;
+    background: var(--c-main-dark);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.my-library-section {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-areas: 'my-library create-playlists';
+    gap: 10px;
+}
+
+.my-library,
+.create-playlists {
+    position: relative;
+    display: grid;
+    place-items: start;
+    background: var(--c-main-dark);
+    border: 1px solid lightgray;
+    padding: 10px;
+    padding-top: 30px;
+    border-radius: 10px;
+}
+
+.my-library {
+    grid-area: my-library;
+}
+
+.create-playlists {
+    grid-area: create-playlists;
+}
+
+.my-library h2,
+.create-playlists h2 {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    padding: 0 5px;
+    color: var(--c-text);
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.my-library button {
+    padding: 5px 10px;
+}
+
+.buttons {
+    display: grid;
+    gap: 10px;
+}
+
+.buttons .btn-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .list-container {
@@ -141,6 +241,7 @@ a {
 
 .list-container ul {
     max-height: 500px;
+    border-radius: 10px;
     overflow: auto;
 }
 
@@ -226,7 +327,23 @@ a {
     max-width: 40ch;
 }
 
-.confirmation-section .btn,
-.results-section .btn {
-    margin-top: 10px;
+.confirmation-section h2,
+.results-section h2 {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.confirmation-message,
+.results-message {
+    margin: 10px 0;
+}
+
+.playlists .title::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    display: inline-block;
+    margin-right: 10px;
 }
