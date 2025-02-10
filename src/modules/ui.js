@@ -77,9 +77,21 @@ const createPlaylistByDecade = async () => {
     const songsByDecade = parseSongsByDecade(songs);
 
     toggleSection('results', false);
-    toggleSection('confirmation', true);
 
-    const confirmationMessage = document.querySelector('.confirmation-message');
+    const confirmationSection = document.querySelector('.confirmation-section');
+    if (confirmationSection) confirmationSection.remove();
+    const section = document.createElement('section');
+    section.className = 'confirmation-section';
+    section.innerHTML = `
+        <h2>The following playlists will be created</h2>
+        <div class="confirmation-message"></div>
+        <button class="confirm-btn btn">Confirm</button>
+        <button class="cancel-btn btn">Cancel</button>
+    `;
+    const loginMessage = document.querySelector('.login-message');
+    loginMessage.insertAdjacentElement('afterend', section);
+
+    const confirmationMessage = section.querySelector('.confirmation-message');
     let confirmationText = '';
 
     for (let decade in songsByDecade) {
@@ -87,13 +99,13 @@ const createPlaylistByDecade = async () => {
     }
     confirmationMessage.innerHTML = confirmationText;
 
-    const confirmBtn = document.querySelector('.confirm-btn');
-    const cancelBtn = document.querySelector('.cancel-btn');
+    const confirmBtn = section.querySelector('.confirm-btn');
+    const cancelBtn = section.querySelector('.cancel-btn');
 
     confirmBtn.addEventListener(
         'click',
         async () => {
-            toggleSection('confirmation', false);
+            section.remove();
             toggleSection('results', true);
             const spinner = document.querySelector('.spinner');
             spinner.classList.remove('disabled');
@@ -125,7 +137,7 @@ const createPlaylistByDecade = async () => {
     cancelBtn.addEventListener(
         'click',
         () => {
-            toggleSection('confirmation', false);
+            section.remove();
         },
         { once: true },
     );
