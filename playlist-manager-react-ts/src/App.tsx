@@ -2,6 +2,9 @@
 import './App.css';
 import { initializeApp } from './modules/ui';
 import { useEffect } from 'react';
+import { FaSpotify } from 'react-icons/fa6';
+import { RiPlayList2Fill } from 'react-icons/ri';
+import { IoMdHeart } from 'react-icons/io';
 
 function App() {
     useEffect(() => {
@@ -11,10 +14,12 @@ function App() {
         <>
             <div className="page">
                 <header className="header">
+                    <RiPlayList2Fill className="logo" />
                     <h1>Playlist Manager</h1>
                 </header>
                 <section className="login">
                     <button className="login-btn btn">
+                        <FaSpotify className="icon" />
                         Sign in with Spotify
                     </button>
                 </section>
@@ -31,14 +36,14 @@ function App() {
                             <div className="buttons">
                                 <button className="liked-songs-btn btn">
                                     <span className="btn-text">
-                                        {' '}
-                                        Liked Songs{' '}
+                                        <IoMdHeart className="icon" /> Liked
+                                        Songs{' '}
                                     </span>
                                     <span className="spinner disabled" />
                                 </button>
                                 <button className="show-playlists-btn btn">
                                     <span className="btn-text">
-                                        {' '}
+                                        <RiPlayList2Fill className="icon" />{' '}
                                         Playlists{' '}
                                     </span>
                                     <span className="spinner disabled" />
