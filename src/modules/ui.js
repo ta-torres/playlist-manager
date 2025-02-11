@@ -7,7 +7,7 @@ import { parseSongs, parsePlaylists, parseSongsByDecade } from './utils.js';
 
 const initializeApp = () => {
     const loginBtn = document.querySelector('.login-btn');
-    loginBtn.addEventListener('click', () => redirectToSpotify());
+    loginBtn.addEventListener('click', () => SpotifyAuth.redirectToSpotify());
     if (SpotifyAuth.isTokenValid()) bindUserEvents();
     if (window.location.search.includes('code='))
         SpotifyAuth.handleRedirectCallback();
