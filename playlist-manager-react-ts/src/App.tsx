@@ -2,11 +2,13 @@
 import './App.css';
 import { initializeApp } from './modules/ui';
 import { useEffect } from 'react';
+import { useSpotify } from './context/SpotifyContext';
 import { FaSpotify } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { IoMdHeart } from 'react-icons/io';
 
 function App() {
+    const { isAuthenticated, login } = useSpotify();
     useEffect(() => {
         initializeApp();
     }, []);
@@ -17,13 +19,17 @@ function App() {
                     <RiPlayList2Fill className="logo" />
                     <h1>Playlist Manager</h1>
                 </header>
-                <section className="login">
-                    <button className="login-btn btn">
+                <section
+                    className={`login ${isAuthenticated ? 'disabled' : ''}`}
+                >
+                    <button className="login-btn btn" onClick={login}>
                         <FaSpotify className="icon" />
                         Sign in with Spotify
                     </button>
                 </section>
-                <main className="main-content disabled">
+                <main
+                    className={`main-content ${!isAuthenticated ? 'disabled' : ''}`}
+                >
                     <div className="login-message" />
                     <section className="results-section disabled">
                         <h2>Playlists created</h2>

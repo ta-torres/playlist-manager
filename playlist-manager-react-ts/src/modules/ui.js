@@ -5,11 +5,11 @@ import SpotifyAPI from './api.js';
 import { parseSongs, parsePlaylists, parseSongsByDecade } from './utils.js';
 
 const initializeApp = () => {
-    const loginBtn = document.querySelector('.login-btn');
-    loginBtn.addEventListener('click', () => SpotifyAuth.redirectToSpotify());
+    /*     const loginBtn = document.querySelector('.login-btn');
+    loginBtn.addEventListener('click', () => SpotifyAuth.redirectToSpotify()); */
     if (SpotifyAuth.isTokenValid()) bindUserEvents();
-    if (window.location.search.includes('code='))
-        SpotifyAuth.handleRedirectCallback();
+    /* if (window.location.search.includes('code='))
+        SpotifyAuth.handleRedirectCallback(); */
 };
 
 const bindUserEvents = () => {
