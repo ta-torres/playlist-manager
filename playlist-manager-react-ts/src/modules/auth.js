@@ -83,19 +83,22 @@ const getAccessToken = async (authCode) => {
     }
 };
 
-const isTokenValid = () => {
+const isTokenValid = async () => {
     const token = localStorage.getItem('access_token');
     const tokenExpiry = localStorage.getItem('token_expiry');
 
     if (token && tokenExpiry && new Date().getTime() < tokenExpiry) {
         return true;
-    } else {
-        if (localStorage.getItem('refresh_token')) {
-            getRefreshToken().then(() => {
-                window.location.reload();
-            });
+    } else if (localStorage.getItem('refresh_token')) {
+        try {
+            await getRefreshToken();
+            return true;
+        } catch (error) {
+            console.error('Error refreshing token:', error);
+            return false;
         }
     }
+    return false;
 };
 
 const getRefreshToken = async () => {
@@ -138,6 +141,7 @@ const SpotifyAuth = {
     redirectToSpotify,
     isTokenValid,
     handleRedirectCallback,
+    getRefreshToken,
 };
 
 export default SpotifyAuth;

@@ -10,9 +10,20 @@ export const SpotifyProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        if (SpotifyAuth.isTokenValid()) {
-            setIsAuthenticated(true);
-        }
+        const checkAuth = async () => {
+            try {
+                const isValid = await SpotifyAuth.isTokenValid();
+                setIsAuthenticated(isValid);
+                if (isValid) {
+                    setAccessToken(localStorage.getItem('access_token'));
+                }
+            } catch (error) {
+                console.error('Auth failed:', error);
+                setIsAuthenticated(false);
+            }
+        };
+
+        checkAuth();
 
         if (window.location.search.includes('code=')) {
             SpotifyAuth.handleRedirectCallback().then(() => {
