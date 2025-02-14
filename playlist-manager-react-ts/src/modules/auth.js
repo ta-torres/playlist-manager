@@ -89,13 +89,15 @@ const isTokenValid = async () => {
 
     if (token && tokenExpiry && new Date().getTime() < tokenExpiry) {
         return true;
-    } else if (localStorage.getItem('refresh_token')) {
-        try {
-            await getRefreshToken();
-            return true;
-        } catch (error) {
-            console.error('Error refreshing token:', error);
-            return false;
+    } else {
+        if (localStorage.getItem('refresh_token')) {
+            try {
+                await getRefreshToken();
+                return true;
+            } catch (error) {
+                console.error('Error refreshing token:', error);
+                return false;
+            }
         }
     }
     return false;
