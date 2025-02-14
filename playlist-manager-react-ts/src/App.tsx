@@ -10,6 +10,7 @@ import { Library } from './components/Library';
 import PlaylistCreator from './components/PlaylistCreator';
 import SongItem from './components/SongItem';
 import PlaylistItem from './components/PlaylistItem';
+import Greeting from './components/Greeting';
 
 function App() {
     const { isAuthenticated, login } = useSpotify();
@@ -37,7 +38,7 @@ function App() {
                 <main
                     className={`main-content ${!isAuthenticated ? 'disabled' : ''}`}
                 >
-                    <div className="login-message" />
+                    <Greeting />
                     <section className="results-section disabled">
                         <h2>Playlists created</h2>
                         <span className="spinner disabled" />
