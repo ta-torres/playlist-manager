@@ -23,13 +23,13 @@ export const SpotifyProvider = ({ children }) => {
             }
         };
 
-        checkAuth();
-
         if (window.location.search.includes('code=')) {
             SpotifyAuth.handleRedirectCallback().then(() => {
                 setAccessToken(localStorage.getItem('access_token'));
                 setIsAuthenticated(true);
             });
+        } else {
+            checkAuth();
         }
     }, []);
 
