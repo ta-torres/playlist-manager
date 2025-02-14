@@ -317,20 +317,38 @@ a {
     }
 }
 
-.confirmation-section,
-.results-section {
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 20px;
-    background: var(--c-main-light);
-    border: 1px solid var(--c-accent);
-    border-radius: 5px;
-    max-width: 40ch;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
 }
 
-.confirmation-section h2,
-.results-section h2 {
-    font-size: 1.6rem;
-    font-weight: 500;
+.modal {
+    background: var(--c-main-light);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--c-accent);
+    max-width: 40ch;
+    width: 90%;
+    position: relative;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .confirmation-message,
