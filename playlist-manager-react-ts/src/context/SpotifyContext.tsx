@@ -2,9 +2,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import SpotifyAuth from '../modules/auth';
 import { SpotifyContextType } from '../types';
 
-const SpotifyContext = createContext(null);
+const SpotifyContext = createContext<SpotifyContextType | null>(null);
 
-export const SpotifyProvider = ({ children }) => {
+export const SpotifyProvider = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
     const [accessToken, setAccessToken] = useState(
         localStorage.getItem('access_token'),
     );
