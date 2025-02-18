@@ -1,7 +1,6 @@
 //@ts-nocheck
 import './App.css';
-import { initializeApp } from './modules/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSpotify } from './context/SpotifyContext';
 import { FaSpotify } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
@@ -20,9 +19,7 @@ function App() {
     );
     const [likedSongs, setLikedSongs] = useState<Song[]>([]);
     const [playlists, setPlaylists] = useState<Playlist[]>([]);
-    /* useEffect(() => {
-        initializeApp();
-    }, []); */
+
     return (
         <>
             <div className="page">
