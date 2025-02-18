@@ -1,5 +1,5 @@
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
-const SPOTIFY_REDIRECT_URI = 'https://ta-torres.github.io/playlist-manager/';
+const SPOTIFY_REDIRECT_URI = 'http://localhost:5173';
 const SCOPES =
     'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
@@ -83,44 +83,69 @@ const getAccessToken = async (authCode) => {
     }
 };
 
-const isTokenValid = () => {
+const isTokenValid = async () => {
     const token = localStorage.getItem('access_token');
     const tokenExpiry = localStorage.getItem('token_expiry');
 
     if (token && tokenExpiry && new Date().getTime() < tokenExpiry) {
         return true;
-    } else {
-        if (localStorage.getItem('refresh_token')) {
-            getRefreshToken().then(() => {
-                window.location.reload();
-            });
+    }
+
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (refreshToken) {
+        try {
+            await getRefreshToken();
+            return true;
+        } catch (error) {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('token_expiry');
+            localStorage.removeItem('refresh_token');
+            console.error('Error refreshing token:', error);
+            return false;
         }
     }
+    return false;
 };
 
 const getRefreshToken = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+        throw new Error('No refresh token available');
+    }
+
     const url = 'https://accounts.spotify.com/api/token';
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                grant_type: 'refresh_token',
+                refresh_token: refreshToken,
+                client_id: SPOTIFY_CLIENT_ID,
+            }),
+        });
 
-    const payload = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            grant_type: 'refresh_token',
-            refresh_token: refreshToken,
-            client_id: SPOTIFY_CLIENT_ID,
-        }),
-    };
-    const body = await fetch(url, payload);
-    const response = await body.json();
+        if (!response.ok) {
+            throw new Error(`Error fetching refresh token: ${response.status}`);
+        }
 
-    const expirationTime = new Date().getTime() + response.expires_in * 1000;
-    localStorage.setItem('access_token', response.access_token);
-    localStorage.setItem('token_expiry', expirationTime);
-    if (response.refresh_token) {
-        localStorage.setItem('refresh_token', response.refresh_token);
+        const data = await response.json();
+
+        const expirationTime = new Date().getTime() + data.expires_in * 1000;
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('token_expiry', expirationTime);
+        if (data.refresh_token) {
+            localStorage.setItem('refresh_token', data.refresh_token);
+        }
+
+        return data.access_token;
+    } catch (error) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_expiry');
+        localStorage.removeItem('refresh_token');
+        console.error('Error refreshing token:', error);
     }
 };
 
@@ -130,7 +155,7 @@ const handleRedirectCallback = async () => {
     if (authCode) {
         const accessToken = await getAccessToken(authCode);
         // window.history.replaceState({}, '', '/');
-        window.location.href = 'https://ta-torres.github.io/playlist-manager/';
+        window.location.href = 'http://localhost:5173';
     }
 };
 
@@ -138,6 +163,7 @@ const SpotifyAuth = {
     redirectToSpotify,
     isTokenValid,
     handleRedirectCallback,
+    getRefreshToken,
 };
 
 export default SpotifyAuth;

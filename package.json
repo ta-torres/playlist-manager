@@ -1,29 +1,30 @@
 {
-    "name": "playlist-manager",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack serve --open --config webpack.dev.js",
-        "build": "webpack --config webpack.prod.js",
-        "gh-pages": "git subtree push --prefix dist origin gh-pages"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "css-loader": "^7.1.2",
-        "html-webpack-plugin": "^5.6.0",
-        "prettier": "3.3.3",
-        "style-loader": "^4.0.0",
-        "webpack": "^5.92.1",
-        "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^5.0.4",
-        "webpack-merge": "^6.0.1"
-    },
-    "dependencies": {
-        "iconify-icon": "^2.1.0",
-        "install": "^0.13.0",
-        "npm": "^10.8.2"
-    }
+  "name": "playlist-manager-react-ts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.22.0",
+    "vite": "^6.1.0"
+  }
 }
