@@ -1,4 +1,3 @@
-//@ts-nocheck
 import './App.css';
 import { useState } from 'react';
 import { useSpotify } from './context/SpotifyContext';
