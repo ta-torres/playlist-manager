@@ -7,8 +7,6 @@ import SpotifyAPI from '../modules/api';
 // @ts-expect-error not typed yet
 import { parseSongs, parsePlaylists } from '../modules/utils';
 import { LibraryProps, SpotifyContextType } from '../types';
-import SongItem from './SongItem';
-import PlaylistItem from './PlaylistItem';
 
 export function Library({
     setActiveView,

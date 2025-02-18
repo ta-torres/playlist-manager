@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useSpotify } from './context/SpotifyContext';
 import { FaSpotify } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
-import { IoMdHeart } from 'react-icons/io';
 import { Library } from './components/Library';
 import PlaylistCreator from './components/PlaylistCreator';
 import SongItem from './components/SongItem';
