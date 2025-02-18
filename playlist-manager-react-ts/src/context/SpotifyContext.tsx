@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+// @ts-expect-error not typed yet
 import SpotifyAuth from '../modules/auth';
 import { SpotifyContextType } from '../types';
 

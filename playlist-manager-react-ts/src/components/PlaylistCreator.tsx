@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
+// @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
+// @ts-expect-error not typed yet
 import { parseSongsByDecade } from '../modules/utils';
 import ConfirmationModal from './ConfirmationModal';
 import ResultsModal from './ResultsModal';

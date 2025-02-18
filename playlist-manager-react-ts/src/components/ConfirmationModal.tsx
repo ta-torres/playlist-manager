@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
+// @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
 import {
     SpotifyContextType,

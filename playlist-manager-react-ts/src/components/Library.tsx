@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 import { IoMdHeart } from 'react-icons/io';
 import { RiPlayList2Fill } from 'react-icons/ri';
+// @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
+// @ts-expect-error not typed yet
 import { parseSongs, parsePlaylists } from '../modules/utils';
 import { LibraryProps, SpotifyContextType } from '../types';
 import SongItem from './SongItem';
