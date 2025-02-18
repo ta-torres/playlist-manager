@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 import SpotifyAPI from '../modules/api';
+import {
+    SpotifyContextType,
+    ConfirmationModalProps,
+    DecadeResults,
+} from '../types';
 
-const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }) => {
-    const { accessToken } = useSpotify();
-    const [isCreating, setIsCreating] = useState(false);
-    const [currentProgress, setCurrentProgress] = useState([]);
+const ConfirmationModal = ({
+    playlistsToCreate,
+    onClose,
+    onFinish,
+}: ConfirmationModalProps) => {
+    const { accessToken } = useSpotify() as SpotifyContextType;
+    const [isCreating, setIsCreating] = useState<boolean>(false);
+    const [currentProgress, setCurrentProgress] = useState<DecadeResults[]>([]);
 
     const handleConfirm = async () => {
         setIsCreating(true);
         const creationResults = [];
 
-        for (let decade in playlistsToCreate) {
+        for (const decade in playlistsToCreate) {
             try {
                 const playlistId = await SpotifyAPI.createPlaylist(
                     accessToken,

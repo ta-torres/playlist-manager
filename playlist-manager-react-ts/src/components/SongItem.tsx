@@ -1,4 +1,6 @@
-export function SongItem({ song }) {
+import { SongItemProps } from '../types';
+
+export function SongItem({ song }: SongItemProps) {
     return (
         <li>
             <div className="details">

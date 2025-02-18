@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 import SpotifyAPI from '../modules/api';
+import { SpotifyContextType, SpotifyProfile } from '../types';
 
 const Greeting = () => {
-    const { accessToken } = useSpotify();
-    const [displayName, setDisplayName] = useState('');
+    const { accessToken } = useSpotify() as SpotifyContextType;
+    const [displayName, setDisplayName] = useState<string>('');
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const profile = await SpotifyAPI.getUsersProfile(accessToken);
+                const profile = (await SpotifyAPI.getUsersProfile(
+                    accessToken,
+                )) as SpotifyProfile;
                 setDisplayName(profile.display_name);
             } catch (error) {
                 console.error('Error fetching profile:', error);

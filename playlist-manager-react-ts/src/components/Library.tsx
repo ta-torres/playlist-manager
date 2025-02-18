@@ -4,12 +4,17 @@ import { IoMdHeart } from 'react-icons/io';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import SpotifyAPI from '../modules/api';
 import { parseSongs, parsePlaylists } from '../modules/utils';
+import { LibraryProps, SpotifyContextType } from '../types';
 import SongItem from './SongItem';
 import PlaylistItem from './PlaylistItem';
 
-export function Library({ setActiveView, setLikedSongs, setPlaylists }) {
-    const { accessToken } = useSpotify();
-    const [isLoading, setIsLoading] = useState(false);
+export function Library({
+    setActiveView,
+    setLikedSongs,
+    setPlaylists,
+}: LibraryProps) {
+    const { accessToken } = useSpotify() as SpotifyContextType;
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleLikedSongs = async () => {
         setIsLoading(true);

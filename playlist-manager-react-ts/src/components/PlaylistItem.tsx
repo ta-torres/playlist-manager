@@ -1,4 +1,6 @@
-export function PlaylistItem({ playlist }) {
+import { PlaylistItemProps } from '../types';
+
+export function PlaylistItem({ playlist }: PlaylistItemProps) {
     return (
         <li>
             <div className="details">

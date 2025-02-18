@@ -11,12 +11,15 @@ import PlaylistCreator from './components/PlaylistCreator';
 import SongItem from './components/SongItem';
 import PlaylistItem from './components/PlaylistItem';
 import Greeting from './components/Greeting';
+import { Song, Playlist, SpotifyContextType } from './types';
 
 function App() {
-    const { isAuthenticated, login } = useSpotify();
-    const [activeView, setActiveView] = useState(null);
-    const [likedSongs, setLikedSongs] = useState([]);
-    const [playlists, setPlaylists] = useState([]);
+    const { isAuthenticated, login } = useSpotify() as SpotifyContextType;
+    const [activeView, setActiveView] = useState<'songs' | 'playlists' | null>(
+        null,
+    );
+    const [likedSongs, setLikedSongs] = useState<Song[]>([]);
+    const [playlists, setPlaylists] = useState<Playlist[]>([]);
     /* useEffect(() => {
         initializeApp();
     }, []); */

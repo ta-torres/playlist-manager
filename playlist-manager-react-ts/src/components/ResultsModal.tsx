@@ -1,4 +1,6 @@
-const ResultsModal = ({ results, onClose }) => {
+import { ResultsModalProps } from '../types';
+
+const ResultsModal = ({ results, onClose }: ResultsModalProps) => {
     return (
         <div className="modal-overlay">
             <div className="modal">

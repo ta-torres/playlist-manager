@@ -4,13 +4,17 @@ import SpotifyAPI from '../modules/api';
 import { parseSongsByDecade } from '../modules/utils';
 import ConfirmationModal from './ConfirmationModal';
 import ResultsModal from './ResultsModal';
+import { SpotifyContextType, DecadeResults } from '../types';
 
 const PlaylistCreator = () => {
-    const { accessToken } = useSpotify();
-    const [isLoading, setIsLoading] = useState(false);
-    const [playlistsToCreate, setPlaylistsToCreate] = useState(null);
-    const [results, setResults] = useState(null);
-    const [showResults, setShowResults] = useState(false);
+    const { accessToken } = useSpotify() as SpotifyContextType;
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [playlistsToCreate, setPlaylistsToCreate] = useState<Record<
+        string,
+        string[]
+    > | null>(null);
+    const [results, setResults] = useState<DecadeResults[] | null>(null);
+    const [showResults, setShowResults] = useState<boolean>(false);
 
     const handleCreatePlaylist = async () => {
         setIsLoading(true);
@@ -23,7 +27,7 @@ const PlaylistCreator = () => {
         }
     };
 
-    const handleConfirm = (results) => {
+    const handleConfirm = (results: DecadeResults[]) => {
         setPlaylistsToCreate(null);
         setResults(results);
         setShowResults(true);
@@ -53,7 +57,7 @@ const PlaylistCreator = () => {
 
             {showResults && (
                 <ResultsModal
-                    results={results}
+                    results={results as DecadeResults[]}
                     onClose={() => setShowResults(false)}
                 />
             )}

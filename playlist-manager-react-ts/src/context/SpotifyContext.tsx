@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import SpotifyAuth from '../modules/auth';
+import { SpotifyContextType } from '../types';
 
 const SpotifyContext = createContext(null);
 
