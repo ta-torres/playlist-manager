@@ -1,5 +1,5 @@
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
-const SPOTIFY_REDIRECT_URI = 'http://localhost:5173';
+const SPOTIFY_REDIRECT_URI = 'https://spotify-list-manager.vercel.app';
 const SCOPES =
     'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
@@ -155,7 +155,7 @@ const handleRedirectCallback = async () => {
     if (authCode) {
         const accessToken = await getAccessToken(authCode);
         // window.history.replaceState({}, '', '/');
-        window.location.href = 'http://localhost:5173';
+        window.location.href = 'https://spotify-list-manager.vercel.app';
     }
 };
 
