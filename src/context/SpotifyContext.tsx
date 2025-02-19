@@ -35,8 +35,19 @@ export const SpotifyProvider = ({ children }: { children: React.ReactNode }) => 
 
     const login = () => SpotifyAuth.redirectToSpotify();
 
+    const logout = () => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_expiry');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('code_verifier');
+        setAccessToken(null);
+        setIsAuthenticated(false);
+    };
+
     return (
-        <SpotifyContext.Provider value={{ accessToken, isAuthenticated, login }}>{children}</SpotifyContext.Provider>
+        <SpotifyContext.Provider value={{ accessToken, isAuthenticated, login, logout }}>
+            {children}
+        </SpotifyContext.Provider>
     );
 };
 

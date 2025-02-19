@@ -1,8 +1,6 @@
 import './App.css';
 import { useState } from 'react';
 import { useSpotify } from './context/SpotifyContext';
-import { FaSpotify } from 'react-icons/fa6';
-import logo from './assets/logo.svg';
 import { Library } from './components/Library';
 import PlaylistCreator from './components/PlaylistCreator';
 import SongItem from './components/SongItem';
@@ -12,7 +10,7 @@ import Header from './components/Header';
 import { Song, Playlist, SpotifyContextType } from './types';
 
 function App() {
-    const { isAuthenticated, login } = useSpotify() as SpotifyContextType;
+    const { isAuthenticated } = useSpotify() as SpotifyContextType;
     const [activeView, setActiveView] = useState<'songs' | 'playlists' | null>(null);
     const [likedSongs, setLikedSongs] = useState<Song[]>([]);
     const [playlists, setPlaylists] = useState<Playlist[]>([]);

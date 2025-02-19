@@ -111,13 +111,20 @@ a {
 
 .header {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    gap: 10px;
     background: var(--c-main-dark);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo-container {
@@ -150,6 +157,7 @@ a {
     background: #1db954;
     gap: 20px;
     font-weight: 500;
+    margin-inline: auto;
 }
 
 .login-btn .icon {
@@ -160,6 +168,19 @@ a {
     background: white;
     color: #1db954;
     border: 1px solid lightgray;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: var(--c-accent);
+    border-radius: 50%;
+}
+
+.logout-btn .icon {
+    font-size: 20px;
 }
 
 .icon {
@@ -372,4 +393,25 @@ a {
     background: var(--c-accent);
     display: inline-block;
     margin-right: 10px;
+}
+
+.year-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.year-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.year-checkbox input[type='checkbox'] {
+    cursor: pointer;
 }
