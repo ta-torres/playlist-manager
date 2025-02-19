@@ -1,17 +1,12 @@
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
 const SPOTIFY_REDIRECT_URI = 'https://spotify-list-manager.vercel.app';
-const SCOPES =
-    'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
+const SCOPES = 'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
 const generateAuthCode = async () => {
     const generateRandomString = (length) => {
-        const possible =
-            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const values = crypto.getRandomValues(new Uint8Array(length));
-        return values.reduce(
-            (acc, x) => acc + possible[x % possible.length],
-            '',
-        );
+        return values.reduce((acc, x) => acc + possible[x % possible.length], '');
     };
 
     const sha256 = async (plain) => {
@@ -71,8 +66,7 @@ const getAccessToken = async (authCode) => {
 
         const data = await response.json();
         if (data.access_token) {
-            const expirationTime =
-                new Date().getTime() + data.expires_in * 1000;
+            const expirationTime = new Date().getTime() + data.expires_in * 1000;
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('token_expiry', expirationTime);
             localStorage.setItem('refresh_token', data.refresh_token);

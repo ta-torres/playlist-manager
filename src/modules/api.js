@@ -16,9 +16,7 @@ const getUsersProfile = async (accessToken) => {
 };
 
 const getLikedSongs = async (accessToken, limit) => {
-    let url =
-        'https://api.spotify.com/v1/me/tracks' +
-        (limit ? '?limit=' + limit : '?limit=50');
+    let url = 'https://api.spotify.com/v1/me/tracks' + (limit ? '?limit=' + limit : '?limit=50');
     let songs = [];
     let songsLeft = true;
 
@@ -46,14 +44,11 @@ const getLikedSongs = async (accessToken, limit) => {
 
 const getPlaylists = async (accessToken) => {
     try {
-        const response = await fetch(
-            'https://api.spotify.com/v1/me/playlists',
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+        const response = await fetch('https://api.spotify.com/v1/me/playlists', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
             },
-        );
+        });
         const playlistData = await response.json();
         return playlistData.items;
     } catch (error) {

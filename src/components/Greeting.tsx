@@ -11,9 +11,7 @@ const Greeting = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const profile = (await SpotifyAPI.getUsersProfile(
-                    accessToken,
-                )) as SpotifyProfile;
+                const profile = (await SpotifyAPI.getUsersProfile(accessToken)) as SpotifyProfile;
                 setDisplayName(profile.display_name);
             } catch (error) {
                 console.error('Error fetching profile:', error);

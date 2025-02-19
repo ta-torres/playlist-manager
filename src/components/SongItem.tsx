@@ -5,12 +5,7 @@ export function SongItem({ song }: SongItemProps) {
         <li>
             <div className="details">
                 <div className="cover">
-                    <img
-                        src={song.cover}
-                        width={64}
-                        height={64}
-                        alt={`${song.title} cover`}
-                    />
+                    <img src={song.cover} width={64} height={64} alt={`${song.title} cover`} />
                 </div>
                 <div className="info">
                     <p className="title">{song.title}</p>

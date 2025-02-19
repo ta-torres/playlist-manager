@@ -11,10 +11,7 @@ import { SpotifyContextType, DecadeResults } from '../types';
 const PlaylistCreator = () => {
     const { accessToken } = useSpotify() as SpotifyContextType;
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [playlistsToCreate, setPlaylistsToCreate] = useState<Record<
-        string,
-        string[]
-    > | null>(null);
+    const [playlistsToCreate, setPlaylistsToCreate] = useState<Record<string, string[]> | null>(null);
     const [results, setResults] = useState<DecadeResults[] | null>(null);
     const [showResults, setShowResults] = useState<boolean>(false);
 
@@ -39,11 +36,7 @@ const PlaylistCreator = () => {
         <section className="create-playlists">
             <h2>Playlists</h2>
             <div className="buttons">
-                <button
-                    className="create-playlist-btn btn"
-                    onClick={handleCreatePlaylist}
-                    disabled={isLoading}
-                >
+                <button className="create-playlist-btn btn" onClick={handleCreatePlaylist} disabled={isLoading}>
                     <span className="btn-text">Create playlists by decade</span>
                     {isLoading && <span className="spinner" />}
                 </button>
@@ -57,12 +50,7 @@ const PlaylistCreator = () => {
                 />
             )}
 
-            {showResults && (
-                <ResultsModal
-                    results={results as DecadeResults[]}
-                    onClose={() => setShowResults(false)}
-                />
-            )}
+            {showResults && <ResultsModal results={results as DecadeResults[]} onClose={() => setShowResults(false)} />}
         </section>
     );
 };

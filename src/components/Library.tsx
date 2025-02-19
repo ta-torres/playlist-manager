@@ -8,11 +8,7 @@ import SpotifyAPI from '../modules/api';
 import { parseSongs, parsePlaylists } from '../modules/utils';
 import { LibraryProps, SpotifyContextType } from '../types';
 
-export function Library({
-    setActiveView,
-    setLikedSongs,
-    setPlaylists,
-}: LibraryProps) {
+export function Library({ setActiveView, setLikedSongs, setPlaylists }: LibraryProps) {
     const { accessToken } = useSpotify() as SpotifyContextType;
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -44,22 +40,14 @@ export function Library({
         <section className="my-library">
             <h2>Your Library</h2>
             <div className="buttons">
-                <button
-                    className="liked-songs-btn btn"
-                    onClick={handleLikedSongs}
-                    disabled={isLoading}
-                >
+                <button className="liked-songs-btn btn" onClick={handleLikedSongs} disabled={isLoading}>
                     <span className="btn-text">
                         <IoMdHeart className="icon" />
                         Liked Songs
                     </span>
                     {isLoading && <span className="spinner" />}
                 </button>
-                <button
-                    className="show-playlists-btn btn"
-                    onClick={handlePlaylists}
-                    disabled={isLoading}
-                >
+                <button className="show-playlists-btn btn" onClick={handlePlaylists} disabled={isLoading}>
                     <span className="btn-text">
                         <RiPlayList2Fill className="icon" />
                         Playlists

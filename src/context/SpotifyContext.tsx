@@ -5,14 +5,8 @@ import { SpotifyContextType } from '../types';
 
 const SpotifyContext = createContext<SpotifyContextType | null>(null);
 
-export const SpotifyProvider = ({
-    children,
-}: {
-    children: React.ReactNode;
-}) => {
-    const [accessToken, setAccessToken] = useState(
-        localStorage.getItem('access_token'),
-    );
+export const SpotifyProvider = ({ children }: { children: React.ReactNode }) => {
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
@@ -42,11 +36,7 @@ export const SpotifyProvider = ({
     const login = () => SpotifyAuth.redirectToSpotify();
 
     return (
-        <SpotifyContext.Provider
-            value={{ accessToken, isAuthenticated, login }}
-        >
-            {children}
-        </SpotifyContext.Provider>
+        <SpotifyContext.Provider value={{ accessToken, isAuthenticated, login }}>{children}</SpotifyContext.Provider>
     );
 };
 

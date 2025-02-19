@@ -2,17 +2,9 @@ import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 // @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
-import {
-    SpotifyContextType,
-    ConfirmationModalProps,
-    DecadeResults,
-} from '../types';
+import { SpotifyContextType, ConfirmationModalProps, DecadeResults } from '../types';
 
-const ConfirmationModal = ({
-    playlistsToCreate,
-    onClose,
-    onFinish,
-}: ConfirmationModalProps) => {
+const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }: ConfirmationModalProps) => {
     const { accessToken } = useSpotify() as SpotifyContextType;
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [currentProgress, setCurrentProgress] = useState<DecadeResults[]>([]);
@@ -23,15 +15,8 @@ const ConfirmationModal = ({
 
         for (const decade in playlistsToCreate) {
             try {
-                const playlistId = await SpotifyAPI.createPlaylist(
-                    accessToken,
-                    `${decade}s`,
-                );
-                await SpotifyAPI.addSongsToPlaylist(
-                    accessToken,
-                    playlistId,
-                    playlistsToCreate[decade],
-                );
+                const playlistId = await SpotifyAPI.createPlaylist(accessToken, `${decade}s`);
+                await SpotifyAPI.addSongsToPlaylist(accessToken, playlistId, playlistsToCreate[decade]);
 
                 const result = {
                     decade,
@@ -53,17 +38,13 @@ const ConfirmationModal = ({
             <div className="modal">
                 {!isCreating ? (
                     <>
-                        <h2 className="modal-title">
-                            The following playlists will be created
-                        </h2>
+                        <h2 className="modal-title">The following playlists will be created</h2>
                         <div className="confirmation-message">
-                            {Object.entries(playlistsToCreate).map(
-                                ([decade, songs]) => (
-                                    <p key={decade}>
-                                        "{decade}s" with {songs.length} songs
-                                    </p>
-                                ),
-                            )}
+                            {Object.entries(playlistsToCreate).map(([decade, songs]) => (
+                                <p key={decade}>
+                                    "{decade}s" with {songs.length} songs
+                                </p>
+                            ))}
                         </div>
                     </>
                 ) : (
@@ -82,18 +63,10 @@ const ConfirmationModal = ({
                 <div className="buttons">
                     {!isCreating && (
                         <>
-                            <button
-                                className="confirm-btn btn"
-                                onClick={handleConfirm}
-                                disabled={isCreating}
-                            >
+                            <button className="confirm-btn btn" onClick={handleConfirm} disabled={isCreating}>
                                 Confirm
                             </button>
-                            <button
-                                className="cancel-btn btn"
-                                onClick={onClose}
-                                disabled={isCreating}
-                            >
+                            <button className="cancel-btn btn" onClick={onClose} disabled={isCreating}>
                                 Cancel
                             </button>
                         </>
