@@ -8,6 +8,7 @@ import PlaylistCreator from './components/PlaylistCreator';
 import SongItem from './components/SongItem';
 import PlaylistItem from './components/PlaylistItem';
 import Greeting from './components/Greeting';
+import Header from './components/Header';
 import { Song, Playlist, SpotifyContextType } from './types';
 
 function App() {
@@ -19,16 +20,7 @@ function App() {
     return (
         <>
             <div className="page">
-                <header className="header">
-                    <img src={logo} alt="Playlist Manager" className="logo" />
-                    <h1>Playlist Manager</h1>
-                </header>
-                <section className={`login ${isAuthenticated ? 'disabled' : ''}`}>
-                    <button className="login-btn btn" onClick={login}>
-                        <FaSpotify className="icon" />
-                        Sign in with Spotify
-                    </button>
-                </section>
+                <Header />
                 <main className={`main-content ${!isAuthenticated ? 'disabled' : ''}`}>
                     <Greeting />
                     <section className="results-section disabled">

@@ -112,6 +112,7 @@ a {
 .header {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
@@ -119,12 +120,19 @@ a {
     background: var(--c-main-dark);
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .header .logo {
-    font-size: 3rem;
+    width: 32px;
+    height: 32px;
 }
 
 .header h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 400;
 }
 
