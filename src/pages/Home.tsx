@@ -7,6 +7,7 @@ import PlaylistItem from '../components/PlaylistItem';
 import Greeting from '../components/Greeting';
 import Header from '../components/Header';
 import { Song, Playlist, SpotifyContextType } from '../types';
+import Footer from '../components/Footer';
 
 const Home = () => {
     const { isAuthenticated } = useSpotify() as SpotifyContextType;
@@ -36,6 +37,7 @@ const Home = () => {
                     </ul>
                 </section>
             </main>
+            <Footer />
         </div>
     );
 };

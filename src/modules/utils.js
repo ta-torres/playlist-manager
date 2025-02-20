@@ -15,6 +15,7 @@ const parseSongs = (data) => {
 
 const parsePlaylists = (data) => {
     const playlists = data.map((item) => ({
+        id: item.id,
         title: item.name,
         description: item.description,
         cover: item.cover,

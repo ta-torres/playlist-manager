@@ -2,6 +2,7 @@ import { useSpotify } from '../context/SpotifyContext';
 import { SpotifyContextType } from '../types';
 import { FaSpotify } from 'react-icons/fa6';
 import logo from '../assets/logo.svg';
+import Footer from '../components/Footer';
 
 const Login = () => {
     const { login } = useSpotify() as SpotifyContextType;
@@ -22,6 +23,7 @@ const Login = () => {
                     Sign in with Spotify
                 </button>
             </div>
+            <Footer />
         </div>
     );
 };

@@ -92,9 +92,9 @@ a {
     background: var(--c-main-color);
     color: var(--c-text);
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    grid-auto-rows: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
 }
 
@@ -284,6 +284,8 @@ a {
 }
 
 .details .title {
+    display: flex;
+    align-items: center;
     font-weight: 500;
 }
 
@@ -418,4 +420,44 @@ a {
 
 .year-checkbox input[type='checkbox'] {
     cursor: pointer;
+}
+
+.spotify-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.spotify-link:hover {
+    color: #1db954;
+}
+
+.spotify-icon {
+    font-size: 16px;
+}
+
+footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.spotify-attribution {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.spotify-attribution a {
+    color: #1db954;
+    text-decoration: none;
+}
+
+.spotify-attribution a:hover {
+    text-decoration: underline;
 }
