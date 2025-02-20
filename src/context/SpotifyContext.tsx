@@ -8,29 +8,34 @@ const SpotifyContext = createContext<SpotifyContextType | null>(null);
 export const SpotifyProvider = ({ children }: { children: React.ReactNode }) => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
+            setIsLoading(true);
             try {
-                const isValid = await SpotifyAuth.isTokenValid();
-                setIsAuthenticated(isValid);
-                if (isValid) {
-                    setAccessToken(localStorage.getItem('access_token'));
+                if (window.location.search.includes('code=')) {
+                    const success = await SpotifyAuth.handleRedirectCallback();
+                    if (success) {
+                        setAccessToken(localStorage.getItem('access_token'));
+                        setIsAuthenticated(true);
+                    }
+                } else {
+                    const isValid = await SpotifyAuth.isTokenValid();
+                    setIsAuthenticated(isValid);
+                    if (isValid) {
+                        setAccessToken(localStorage.getItem('access_token'));
+                    }
                 }
             } catch (error) {
                 console.error('Auth failed:', error);
                 setIsAuthenticated(false);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        if (window.location.search.includes('code=')) {
-            SpotifyAuth.handleRedirectCallback().then(() => {
-                setAccessToken(localStorage.getItem('access_token'));
-                setIsAuthenticated(true);
-            });
-        } else {
-            checkAuth();
-        }
+        checkAuth();
     }, []);
 
     const login = () => SpotifyAuth.redirectToSpotify();
@@ -45,7 +50,7 @@ export const SpotifyProvider = ({ children }: { children: React.ReactNode }) => 
     };
 
     return (
-        <SpotifyContext.Provider value={{ accessToken, isAuthenticated, login, logout }}>
+        <SpotifyContext.Provider value={{ accessToken, isAuthenticated, login, logout, isLoading }}>
             {children}
         </SpotifyContext.Provider>
     );

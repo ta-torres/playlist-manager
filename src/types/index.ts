@@ -29,6 +29,7 @@ export interface SpotifyContextType {
     isAuthenticated: boolean;
     login: () => void;
     logout: () => void;
+    isLoading: boolean;
 }
 
 export interface LibraryProps {

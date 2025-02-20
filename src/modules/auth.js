@@ -148,9 +148,10 @@ const handleRedirectCallback = async () => {
     const authCode = urlParams.get('code');
     if (authCode) {
         const accessToken = await getAccessToken(authCode);
-        // window.history.replaceState({}, '', '/');
-        window.location.href = 'https://spotify-list-manager.vercel.app';
+        window.history.replaceState({}, '', '/');
+        return accessToken !== null;
     }
+    return false;
 };
 
 const SpotifyAuth = {
