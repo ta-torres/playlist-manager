@@ -4,9 +4,10 @@ interface YearSelectionModalProps {
     onClose: () => void;
     onConfirm: (selectedYears: number[]) => void;
     availableYears: number[];
+    playlistSongsCounter: Record<number, number>;
 }
 
-const YearSelectionModal = ({ onClose, onConfirm, availableYears }: YearSelectionModalProps) => {
+const YearSelectionModal = ({ onClose, onConfirm, availableYears, playlistSongsCounter }: YearSelectionModalProps) => {
     const [selectedYears, setSelectedYears] = useState<number[]>([]);
 
     const handleYearToggle = (year: number) => {
@@ -31,7 +32,9 @@ const YearSelectionModal = ({ onClose, onConfirm, availableYears }: YearSelectio
                                 checked={selectedYears.includes(year)}
                                 onChange={() => handleYearToggle(year)}
                             />
-                            {year}
+                            <span className="year-label">
+                                {year} <span className="song-count">({playlistSongsCounter[year]})</span>
+                            </span>
                         </label>
                     ))}
                 </div>

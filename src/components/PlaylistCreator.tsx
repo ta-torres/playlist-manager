@@ -71,6 +71,10 @@ const PlaylistCreator = () => {
                     onClose={() => setShowYearSelection(false)}
                     onConfirm={handleYearSelection}
                     availableYears={Array.from(new Set(songs.map((song) => song.releaseDate))).sort()}
+                    playlistSongsCounter={songs.reduce((total, song) => {
+                        total[song.releaseDate] = (total[song.releaseDate] || 0) + 1;
+                        return total;
+                    }, {} as Record<number, number>)}
                 />
             )}
 
