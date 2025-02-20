@@ -1,4 +1,8 @@
-import { SongItemProps } from '../types';
+import { Song } from '../types';
+
+interface SongItemProps {
+    song: Song;
+}
 
 export function SongItem({ song }: SongItemProps) {
     return (

@@ -6,7 +6,13 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import SpotifyAPI from '../modules/api';
 // @ts-expect-error not typed yet
 import { parseSongs, parsePlaylists } from '../modules/utils';
-import { LibraryProps, SpotifyContextType } from '../types';
+import { Playlist, Song, SpotifyContextType } from '../types';
+
+export interface LibraryProps {
+    setActiveView: (view: 'songs' | 'playlists' | null) => void;
+    setLikedSongs: (songs: Song[]) => void;
+    setPlaylists: (playlists: Playlist[]) => void;
+}
 
 export function Library({ setActiveView, setLikedSongs, setPlaylists }: LibraryProps) {
     const { accessToken } = useSpotify() as SpotifyContextType;

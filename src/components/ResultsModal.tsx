@@ -1,4 +1,9 @@
-import { ResultsModalProps } from '../types';
+import { DecadeResults } from '../types';
+
+interface ResultsModalProps {
+    results: DecadeResults[];
+    onClose: () => void;
+}
 
 const ResultsModal = ({ results, onClose }: ResultsModalProps) => {
     return (

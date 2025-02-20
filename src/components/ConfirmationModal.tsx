@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 // @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
-import { SpotifyContextType, ConfirmationModalProps, DecadeResults } from '../types';
+import { SpotifyContextType, DecadeResults } from '../types';
+
+interface ConfirmationModalProps {
+    playlistsToCreate: Record<string, string[]>;
+    onClose: () => void;
+    onFinish: (results: DecadeResults[]) => void;
+}
 
 const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }: ConfirmationModalProps) => {
     const { accessToken } = useSpotify() as SpotifyContextType;

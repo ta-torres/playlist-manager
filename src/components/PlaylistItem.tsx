@@ -1,4 +1,8 @@
-import { PlaylistItemProps } from '../types';
+import { Playlist } from '../types';
+
+interface PlaylistItemProps {
+    playlist: Playlist;
+}
 
 export function PlaylistItem({ playlist }: PlaylistItemProps) {
     return (

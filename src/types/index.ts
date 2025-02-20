@@ -32,38 +32,7 @@ export interface SpotifyContextType {
     isLoading: boolean;
 }
 
-export interface LibraryProps {
-    setActiveView: (view: 'songs' | 'playlists' | null) => void;
-    setLikedSongs: (songs: Song[]) => void;
-    setPlaylists: (playlists: Playlist[]) => void;
-}
-
-export interface SongItemProps {
-    song: Song;
-}
-
-export interface PlaylistItemProps {
-    playlist: Playlist;
-}
-
-export interface ConfirmationModalProps {
-    playlistsToCreate: Record<string, string[]>;
-    onClose: () => void;
-    onFinish: (results: DecadeResults[]) => void;
-}
-
-export interface ResultsModalProps {
-    results: DecadeResults[];
-    onClose: () => void;
-}
-
 export interface DecadeResults {
     decade: string;
     count: number;
-}
-
-export interface ConfirmationModalProps {
-    playlistsToCreate: Record<string, string[]>;
-    onClose: () => void;
-    onFinish: (results: DecadeResults[]) => void;
 }
