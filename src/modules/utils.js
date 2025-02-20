@@ -57,4 +57,20 @@ const parseSongsByDecade = (data) => {
     return songsByDecade;
 };
 
-export { parseSongs, parsePlaylists, splitArray, parseSongsByDecade };
+const parseSongsByYear = (data, selectedYears) => {
+    const songsByYear = {};
+
+    data.forEach((item) => {
+        const year = item.releaseDate;
+        if (selectedYears.includes(year)) {
+            if (!songsByYear[year]) {
+                songsByYear[year] = [];
+            }
+            songsByYear[year].push(item.id);
+        }
+    });
+
+    return songsByYear;
+};
+
+export { parseSongs, parsePlaylists, splitArray, parseSongsByDecade, parseSongsByYear };

@@ -3,10 +3,11 @@ import { useSpotify } from '../context/SpotifyContext';
 // @ts-expect-error not typed yet
 import SpotifyAPI from '../modules/api';
 // @ts-expect-error not typed yet
-import { parseSongsByDecade } from '../modules/utils';
+import { parseSongsByDecade, parseSongsByYear, parseSongs } from '../modules/utils';
 import ConfirmationModal from './ConfirmationModal';
 import ResultsModal from './ResultsModal';
-import { SpotifyContextType, DecadeResults } from '../types';
+import YearSelectionModal from './YearSelectionModal';
+import { SpotifyContextType, DecadeResults, Song } from '../types';
 
 const PlaylistCreator = () => {
     const { accessToken } = useSpotify() as SpotifyContextType;
@@ -14,6 +15,8 @@ const PlaylistCreator = () => {
     const [playlistsToCreate, setPlaylistsToCreate] = useState<Record<string, string[]> | null>(null);
     const [results, setResults] = useState<DecadeResults[] | null>(null);
     const [showResults, setShowResults] = useState<boolean>(false);
+    const [showYearSelection, setShowYearSelection] = useState<boolean>(false);
+    const [songs, setSongs] = useState<Song[]>([]);
 
     const handleCreatePlaylist = async () => {
         setIsLoading(true);
@@ -24,6 +27,23 @@ const PlaylistCreator = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleCreateYearPlaylist = async () => {
+        setIsLoading(true);
+        try {
+            const songsData = await SpotifyAPI.getLikedSongs(accessToken);
+            const parsedSongs = await parseSongs(songsData);
+            setSongs(parsedSongs);
+            setShowYearSelection(true);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    const handleYearSelection = (selectedYears: number[]) => {
+        const yearPlaylists = parseSongsByYear(songs, selectedYears);
+        setPlaylistsToCreate(yearPlaylists);
+        setShowYearSelection(false);
     };
 
     const handleConfirm = (results: DecadeResults[]) => {
@@ -40,7 +60,19 @@ const PlaylistCreator = () => {
                     <span className="btn-text">Create playlists by decade</span>
                     {isLoading && <span className="spinner" />}
                 </button>
+                <button className="create-playlist-btn btn" onClick={handleCreateYearPlaylist} disabled={isLoading}>
+                    <span className="btn-text">Create playlists by year</span>
+                    {isLoading && <span className="spinner" />}
+                </button>
             </div>
+
+            {showYearSelection && (
+                <YearSelectionModal
+                    onClose={() => setShowYearSelection(false)}
+                    onConfirm={handleYearSelection}
+                    availableYears={Array.from(new Set(songs.map((song) => song.releaseDate))).sort()}
+                />
+            )}
 
             {playlistsToCreate && (
                 <ConfirmationModal
