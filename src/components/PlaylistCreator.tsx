@@ -17,9 +17,11 @@ const PlaylistCreator = () => {
     const [showResults, setShowResults] = useState<boolean>(false);
     const [showYearSelection, setShowYearSelection] = useState<boolean>(false);
     const [songs, setSongs] = useState<Song[]>([]);
+    const [groupingType, setGroupingType] = useState<'decade' | 'year'>('decade');
 
-    const handleCreatePlaylist = async () => {
+    const handleCreateDecadePlaylist = async () => {
         setIsLoading(true);
+        setGroupingType('decade');
         try {
             const songs = await SpotifyAPI.getLikedSongs(accessToken);
             const decades = parseSongsByDecade(songs);
@@ -31,6 +33,7 @@ const PlaylistCreator = () => {
 
     const handleCreateYearPlaylist = async () => {
         setIsLoading(true);
+        setGroupingType('year');
         try {
             const songsData = await SpotifyAPI.getLikedSongs(accessToken);
             const parsedSongs = await parseSongs(songsData);
@@ -40,6 +43,7 @@ const PlaylistCreator = () => {
             setIsLoading(false);
         }
     };
+
     const handleYearSelection = (selectedYears: number[]) => {
         const yearPlaylists = parseSongsByYear(songs, selectedYears);
         setPlaylistsToCreate(yearPlaylists);
@@ -56,7 +60,7 @@ const PlaylistCreator = () => {
         <section className="create-playlists">
             <h2>Playlists</h2>
             <div className="buttons">
-                <button className="create-playlist-btn btn" onClick={handleCreatePlaylist} disabled={isLoading}>
+                <button className="create-playlist-btn btn" onClick={handleCreateDecadePlaylist} disabled={isLoading}>
                     {isLoading ? (
                         <span className="spinner" />
                     ) : (
@@ -89,6 +93,7 @@ const PlaylistCreator = () => {
                     playlistsToCreate={playlistsToCreate}
                     onClose={() => setPlaylistsToCreate(null)}
                     onFinish={handleConfirm}
+                    groupingType={groupingType}
                 />
             )}
 

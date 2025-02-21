@@ -8,30 +8,36 @@ interface ConfirmationModalProps {
     playlistsToCreate: Record<string, string[]>;
     onClose: () => void;
     onFinish: (results: DecadeResults[]) => void;
+    groupingType: 'decade' | 'year';
 }
 
-const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }: ConfirmationModalProps) => {
+const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish, groupingType }: ConfirmationModalProps) => {
     const { accessToken } = useSpotify() as SpotifyContextType;
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [currentProgress, setCurrentProgress] = useState<DecadeResults[]>([]);
+
+    const getPlaylistName = (key: string) => {
+        return groupingType === 'decade' ? `${key}s` : key;
+    };
 
     const handleConfirm = async () => {
         setIsCreating(true);
         const creationResults = [];
 
-        for (const decade in playlistsToCreate) {
+        for (const key in playlistsToCreate) {
             try {
-                const playlistId = await SpotifyAPI.createPlaylist(accessToken, `${decade}s`);
-                await SpotifyAPI.addSongsToPlaylist(accessToken, playlistId, playlistsToCreate[decade]);
+                const playlistName = getPlaylistName(key);
+                const playlistId = await SpotifyAPI.createPlaylist(accessToken, playlistName);
+                await SpotifyAPI.addSongsToPlaylist(accessToken, playlistId, playlistsToCreate[key]);
 
                 const result = {
-                    decade,
-                    count: playlistsToCreate[decade].length,
+                    decade: key,
+                    count: playlistsToCreate[key].length,
                 };
                 creationResults.push(result);
                 setCurrentProgress((prev) => [...prev, result]);
             } catch (error) {
-                console.error(`Error creating playlist for ${decade}:`, error);
+                console.error(`Error creating playlist for ${key}:`, error);
             }
         }
 
@@ -46,9 +52,9 @@ const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }: Confirmatio
                     <>
                         <h2 className="modal-title">The following playlists will be created</h2>
                         <div className="confirmation-message">
-                            {Object.entries(playlistsToCreate).map(([decade, songs]) => (
-                                <p key={decade}>
-                                    "{decade}s" with {songs.length} songs
+                            {Object.entries(playlistsToCreate).map(([key, songs]) => (
+                                <p key={key}>
+                                    "{getPlaylistName(key)}" with {songs.length} songs
                                 </p>
                             ))}
                         </div>
@@ -59,7 +65,7 @@ const ConfirmationModal = ({ playlistsToCreate, onClose, onFinish }: Confirmatio
                         <div className="confirmation-message">
                             {currentProgress.map(({ decade, count }) => (
                                 <p key={decade}>
-                                    Added {count} songs to "{decade}s" playlist
+                                    Added {count} songs to "{getPlaylistName(decade)}" playlist
                                 </p>
                             ))}
                             {isCreating && <span className="spinner" />}
