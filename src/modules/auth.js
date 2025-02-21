@@ -1,5 +1,5 @@
 const SPOTIFY_CLIENT_ID = 'e9b64b0e4fdd4f97bbc6e17ef0ad960d';
-const SPOTIFY_REDIRECT_URI = 'https://spotify-list-manager.vercel.app';
+const SPOTIFY_REDIRECT_URI = 'https://likesync.vercel.app/';
 const SCOPES = 'user-library-read playlist-read-private playlist-modify-private playlist-modify-public';
 
 const generateAuthCode = async () => {
