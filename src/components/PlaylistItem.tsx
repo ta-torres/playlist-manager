@@ -3,11 +3,13 @@ import { FaSpotify } from 'react-icons/fa6';
 
 interface PlaylistItemProps {
     playlist: Playlist;
+    isSelected: boolean;
+    onSelect: () => void;
 }
 
-export function PlaylistItem({ playlist }: PlaylistItemProps) {
+export function PlaylistItem({ playlist, isSelected, onSelect }: PlaylistItemProps) {
     return (
-        <li>
+        <li className={isSelected ? 'selected' : ''} onClick={onSelect}>
             <div className="details">
                 <div className="info">
                     <p className="title">

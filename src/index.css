@@ -461,3 +461,44 @@ footer {
 .spotify-attribution a:hover {
     text-decoration: underline;
 }
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.list-header h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--c-text);
+    padding: 8px 16px;
+}
+
+.playlists li {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.playlists li.selected {
+    background: var(--c-accent);
+    color: white;
+}
+
+.delete-btn {
+    background: #d15050;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-btn:hover {
+    background: #bb3737;
+    color: white;
+}
+
+.delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

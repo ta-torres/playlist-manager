@@ -94,12 +94,28 @@ const addSongsToPlaylist = async (accessToken, playlistId, songIds) => {
     }
 };
 
+const deletePlaylist = async (accessToken, playlistId) => {
+    try {
+        const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/followers`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error deleting playlist:', error);
+        return false;
+    }
+};
+
 const SpotifyAPI = {
     getUsersProfile,
     getLikedSongs,
     getPlaylists,
     createPlaylist,
     addSongsToPlaylist,
+    deletePlaylist,
 };
 
 export default SpotifyAPI;
