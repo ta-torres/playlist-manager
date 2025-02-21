@@ -57,12 +57,18 @@ const PlaylistCreator = () => {
             <h2>Playlists</h2>
             <div className="buttons">
                 <button className="create-playlist-btn btn" onClick={handleCreatePlaylist} disabled={isLoading}>
-                    <span className="btn-text">Create playlists by decade</span>
-                    {isLoading && <span className="spinner" />}
+                    {isLoading ? (
+                        <span className="spinner" />
+                    ) : (
+                        <span className="btn-text">Create playlists by decade</span>
+                    )}
                 </button>
                 <button className="create-playlist-btn btn" onClick={handleCreateYearPlaylist} disabled={isLoading}>
-                    <span className="btn-text">Create playlists by year</span>
-                    {isLoading && <span className="spinner" />}
+                    {isLoading ? (
+                        <span className="spinner" />
+                    ) : (
+                        <span className="btn-text">Create playlists by year</span>
+                    )}
                 </button>
             </div>
 

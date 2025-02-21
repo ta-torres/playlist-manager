@@ -47,18 +47,24 @@ export function Library({ setActiveView, setLikedSongs, setPlaylists }: LibraryP
             <h2>Your Library</h2>
             <div className="buttons">
                 <button className="liked-songs-btn btn" onClick={handleLikedSongs} disabled={isLoading}>
-                    <span className="btn-text">
-                        <IoMdHeart className="icon" />
-                        Liked Songs
-                    </span>
-                    {isLoading && <span className="spinner" />}
+                    {isLoading ? (
+                        <span className="spinner" />
+                    ) : (
+                        <span className="btn-text">
+                            <IoMdHeart className="icon" />
+                            Liked Songs
+                        </span>
+                    )}
                 </button>
                 <button className="show-playlists-btn btn" onClick={handlePlaylists} disabled={isLoading}>
-                    <span className="btn-text">
-                        <RiPlayList2Fill className="icon" />
-                        Playlists
-                    </span>
-                    {isLoading && <span className="spinner" />}
+                    {isLoading ? (
+                        <span className="spinner" />
+                    ) : (
+                        <span className="btn-text">
+                            <RiPlayList2Fill className="icon" />
+                            Playlists
+                        </span>
+                    )}
                 </button>
             </div>
         </section>
