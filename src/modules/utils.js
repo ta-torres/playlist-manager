@@ -6,7 +6,7 @@ const parseSongs = (data) => {
         releaseDate: new Date(item.track.album.release_date).getFullYear(),
         duration: {
             minutes: Math.floor(item.track.duration_ms / 60000),
-            seconds: Math.floor((item.track.duration_ms % 60000) / 1000),
+            seconds: String(Math.round((item.track.duration_ms % 60000) / 1000)).padStart(2, '0'),
         },
         id: item.track.id,
     }));
